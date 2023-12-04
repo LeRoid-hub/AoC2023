@@ -1,47 +1,42 @@
-f = open("sample.txt", "r")
+f = open("input.txt", "r")
 lines = f.readlines()
 
-numbers = ["one","two","three","four","five","six","seven","eight","nine"]
-numbers_int = [1,2,3,4,5,6,7,8,9]
+m = {
+        "zero": 0,
+        "one": 1,
+        "two": 2,
+        "three": 3,
+        "four": 4,
+        "five": 5,
+        "six": 6,
+        "seven": 7,
+        "eight": 8,
+        "nine": 9,
+        }
 
 value = 0
 for line in lines:
+    if line == "\n":
+        continue
+
     print(line)
     first_number = None
     last_number = None
-    replace = []
-    replace_pos = []
-    replace_with = []
-    for number in numbers:
-        if number in line:
-            replace.append(number) 
-            replace_with.append(str(numbers_int[numbers.index(number)]))
-            replace_pos.append(line.index(number))
-
-    if len(replace) > 0:
-        last = 0
-        for i in range(len(replace_pos)):
-        current = 0
-            for j in range(len(replace_pos)):
-                if replace_pos[i] > last and replace_pos[i] < current:
-                    current = replace_pos[i]
-                #swap shit
-
-
-        help = line
-        help = help.replace(replace[0],replace_with[0])
-        if replace[-1] in line:
-            help = help.replace(replace[-1],replace_with[-1])
-        line = line.replace(line,help)
-
-    print(line)
-    print(lines)
+    word = ""
     for char in line:
-        #print(char)
+
+        temp = None
         if char.isdigit():
+            temp = char
+        else:
+            word += char
+            for w, z in m.items():
+                if word.endswith(w):
+                    temp = z
+
+        if temp is not None:
             if first_number is None:
-                first_number = int(char)
-            last_number = int(char)
-    #print(str(first_number) + str(last_number))
+                first_number = int(temp)
+            last_number = int(temp)
     value += int(str(first_number) + str(last_number))
-    #print(value)
+    print(value)
