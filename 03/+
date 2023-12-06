@@ -1,0 +1,33 @@
+file = open("sample.txt", "r")
+lines = file.read()
+lines = lines.split("\n")
+print(len(lines))
+for i in range(len(lines)):
+    start = None
+    end = None
+    print("pommel")
+    for j in range(len(lines[i])):
+        if lines[i][j].isnumeric():
+            print("is numeric")
+            if start == None:
+                start = j
+                end = j
+            else:
+                end = j
+        if lines[i][j] == ".":
+            if start != None:
+                print("printing")
+                for z in range(start-1,end+1):
+                    if i > 0:
+                        if i > 0 and not lines[i-1][z].isalpha() and not lines[i-1][z].isnumeric() and lines[i-1][z] != ".":
+                          print(lines[i][j])
+                    if not lines[i][z].isalpha() and not lines[i][z].isnumeric() and lines[i][z] != ".":
+                        print(lines[i][j])
+                    if i < len(lines[i])-1:
+                        if not lines[i+1][z].isalpha() and not lines[i+1][z].isnumeric() and lines[i+1][z] != ".":
+                            print(lines[i][j])
+                print(lines[i][start:end+1])
+                start = None
+                end = None
+        if j == len(lines[i])-1:
+           print("pimmel")
