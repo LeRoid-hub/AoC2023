@@ -6,7 +6,7 @@ def stripper(index, line):
     return result
 
 
-file = open("sample.txt", "r")
+file = open("input.txt", "r")
 lines = file.read()
 lines = lines.strip()
 lines = lines.split("\n\n")
@@ -21,20 +21,36 @@ temperature_humidity = stripper(6,lines)
 humidity_location = stripper(7,lines)
 
 conversions = [seed_soil,soil_fertilizer,fertilizer_water,water_light,light_temperature,temperature_humidity,humidity_location]
-print(conversions)
 rates = [0 for r in range(len(seeds))]
-
 for i in range(len(seeds)):
     old = int(seeds[i])
     for j in range(len(conversions)):
-        print("conv ", j)
         for k in range(len(conversions[j])):
-            print(old, " - ", range(int(conversions[j][k][1]),(int(conversions[j][k][1])+int(conversions[j][k][2])-1)), old in range(int(conversions[j][k][1]),(int(conversions[j][k][1])+int(conversions[j][k][2])-1)))
-            if old in range(int(conversions[j][k][1]),(int(conversions[j][k][1])+int(conversions[j][k][2])-1)):
-                diff = old -int(conversions[j][k][1]) 
-                print(diff)
+            if old in range(int(conversions[j][k][1]),(int(conversions[j][k][1])+int(conversions[j][k][2]))):
+                diff = old - int(conversions[j][k][1]) 
                 old = int(conversions[j][k][0]) + diff
-
                 rates[i] = old
+                break
 
-print(rates)
+print("Part 1: ",min(rates))
+
+rates = []
+triedSeeds = []
+for i in range(0,len(seeds),2):
+    print("range ", range(int(seeds[i]),int(seeds[i+1]))) 
+    for l in range (int(seeds[i]),int(seeds[i]) + int(seeds[i+1])):
+        old = l
+        if old in triedSeeds:
+            break
+        else:
+            triedSeeds.append(old)
+            for j in range(len(conversions)):
+                for k in range(len(conversions[j])):
+                    if old in range(int(conversions[j][k][1]),(int(conversions[j][k][1])+int(conversions[j][k][2]))):
+                        diff = old - int(conversions[j][k][1]) 
+                        old = int(conversions[j][k][0]) + diff
+                        rates.append(old)
+                        break
+
+print(triedSeeds)
+print("Part 2: ",min(rates))
